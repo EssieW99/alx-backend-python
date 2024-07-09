@@ -4,7 +4,7 @@
 import asyncio
 from typing import List
 
-task_wait_random = __import__('0-basic_async_syntax').task_wait_random
+task_wait_random = __import__('3-tasks').task_wait_random
 
 
 async def task_wait_n(n: int, max_delay: int) -> List[float]:
@@ -13,7 +13,7 @@ async def task_wait_n(n: int, max_delay: int) -> List[float]:
     in ascending order without using sort()
     """
 
-    task = [asyncio.create_task(task_wait_random(max_delay)) for _ in range(n)]
-    task = asyncio.as_completed(task)
-    results = await asyncio.gather(*task)
+    tasks = [task_wait_random(max_delay) for _ in range(n)]
+    tasks = asyncio.as_completed(tasks)
+    results = await asyncio.gather(*tasks)
     return results
